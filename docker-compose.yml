@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: QA
+    volumes:
+      - ./:/home/workspace
+    ports:
+      - "30119:80"
+      - "30120:5000"
+    ipc: host
+    networks:
+      - qa_network
+
+  db:
+    image: mongo
+    container_name: qadb
+    ports:
+      - "27017:27017"
+    networks:
+      - qa_network
+    volumes:
+      - ./db:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=laon
+      - MONGO_INITDB_DATABASE=admin
+
+networks:
+  qa_network:
+    driver: bridge
