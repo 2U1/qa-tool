@@ -8,12 +8,15 @@ services:
     container_name: QA
     volumes:
       - ./:/home/workspace
+    tty: true
+    stdin_open: true
     ports:
       - "30119:80"
       - "30120:5000"
     ipc: host
     networks:
       - qa_network
+    command: bash
 
   db:
     image: mongo

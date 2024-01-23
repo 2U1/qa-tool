@@ -23,5 +23,5 @@ sudo apt-get install docker-compose-plugin
 You could deploy the server by ruunning the following script.
 
 ```shell
-docker-compose up --build
+docker-compose up --build -d
 ```
