@@ -25,3 +25,15 @@ You could deploy the server by ruunning the following script.
 ```shell
 docker-compose up --build -d
 ```
+
+To see the datas in the MongoDB can be seen using mongodb compass. The server url would be
+
+```shell
+mongodb://root:laon@localhost:27017
+```
+
+The annotation qa tool will be deployed at the following url
+
+```shell
+http://localhost:30119
+```

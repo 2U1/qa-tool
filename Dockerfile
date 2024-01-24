@@ -12,4 +12,5 @@ RUN python -m pip install --upgrade pip && \
     pip install pymongo && \
     pip install dnspython && \
     pip install motor && \
-    pip install gunicorn
+    pip install gunicorn && \
+    pip install odmantic
