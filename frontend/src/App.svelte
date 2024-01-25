@@ -1,20 +1,13 @@
 <script>
-    let dataset_list = []
+    import Router from 'svelte-spa-router'
+    import Home from './routes/Home.svelte'
+    import Detail from './routes/Detail.svelte'
 
-    function get_dataset_list() {
-        fetch('http://localhost:30120/api/dataset/vlm/list')
-            .then((response) => {response.json()
-                .then((json) => {
-                    dataset_list = json
-                })
-            })
-        }
-
-    get_dataset_list()
+    const routes = {
+        '/': Home,
+        '/detail/:data_idx':Detail,
+    }
 </script>
 
-<ul>
-    {#each dataset_list as dataset}
-        <li>{dataset.image}</li>
-    {/each}
-</ul>
+
+<Router {routes}/>

@@ -4,3 +4,8 @@ __pycache__/
 
 # Ignore the files in db folder
 db/*
+
+# Ignore the images in the directory
+images/*
+
+*.ipynb

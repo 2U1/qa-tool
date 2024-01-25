@@ -14,3 +14,5 @@ RUN python -m pip install --upgrade pip && \
     pip install motor && \
     pip install gunicorn && \
     pip install odmantic
+
+RUN npm install svelte-spa-router
