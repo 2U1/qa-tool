@@ -2,13 +2,13 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from database import connect_and_init_db, close_db_connection
 
-from domain.qa import qa_router
+from domain.vlm import vlm_router
+from domain.user import user_router
 
 app = FastAPI()
 
 origins = [
-    "http://127.0.0.1:5173",
-    "http://localhost:5173",
+    "*"
 ]
 
 app.add_middleware(
@@ -24,4 +24,5 @@ app.add_event_handler("startup", connect_and_init_db)
 app.add_event_handler("shutdown", close_db_connection)
 
 
-app.include_router(qa_router.router)
+app.include_router(vlm_router.router)
+app.include_router(user_router.router)

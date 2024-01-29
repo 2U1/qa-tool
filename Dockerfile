@@ -13,6 +13,9 @@ RUN python -m pip install --upgrade pip && \
     pip install dnspython && \
     pip install motor && \
     pip install gunicorn && \
-    pip install odmantic
+    pip install odmantic && \
+    pip install 'passlib[bcrypt]'
 
-RUN npm install svelte-spa-router
+RUN npm install svelte-spa-router && \
+    npm install bootstrap && \\
+    npm install moment

@@ -17,6 +17,7 @@ services:
     networks:
       - qa_network
     command: bash
+    restart: unless-stopped
 
   db:
     image: mongo
@@ -31,6 +32,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=laon
       - MONGO_INITDB_DATABASE=admin
+    restart: unless-stopped
 
 networks:
   qa_network:

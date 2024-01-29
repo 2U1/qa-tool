@@ -10,5 +10,13 @@ class VLMDataset(MongoBaseModel):
     date: str 
     check: bool
 
+class VLMDatasetList(MongoBaseModel):
+    total: int
+    dataset_list: list[VLMDataset]
+
 class Quality(MongoBaseModel):
     quality: bool
+
+class VLMIdx(MongoBaseModel):
+    first_idx: int
+    last_idx: int

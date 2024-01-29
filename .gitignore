@@ -6,6 +6,6 @@ __pycache__/
 db/*
 
 # Ignore the images in the directory
-images/*
+*.jpg
 
 *.ipynb
