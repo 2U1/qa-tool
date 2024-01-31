@@ -6,12 +6,14 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: QA
+    working_dir: /home/workspace/frontend
     volumes:
       - ./:/home/workspace
     tty: true
     stdin_open: true
     ports:
       - "30119:80"
+      - "30120:5000"
     ipc: host
     networks:
       - qa_network

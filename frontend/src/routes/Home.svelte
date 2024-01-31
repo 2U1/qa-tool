@@ -13,7 +13,8 @@
     $: total_page = Math.ceil(total / size)
     $: checkedPercentage = total > 0 ? (checkedCount / total) * 100 : 0;
 
-
+    let _url = import.meta.env.VITE_SERVER_URL + '/api/dataset/vlm/image/'
+    
     function get_dataset_list(_page, _check_filter) {
         let params = {
             page: _page,
@@ -63,7 +64,7 @@
             {#each dataset_list as dataset}
                 <tr>
                     <th scope="row">{dataset.idx}</th>
-                    <td><img src="/images/{dataset.image}" alt="/images/{dataset.image}" width="100px"></td>
+                    <td><img src={_url + dataset.image} alt={_url+dataset.image} width="100px"></td>
                     <td style="color: {dataset.check ? 'green' : 'red'}">{dataset.check ? 'True' : 'False'}</td>
                     <td>{moment(dataset.date).format("YYYY년 MM월 DD일 hh:mm a")}</td>
                     <td><a use:link href="/detail/{dataset.idx}">[이동]</a></td>

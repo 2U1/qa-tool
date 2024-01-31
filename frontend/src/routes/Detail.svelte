@@ -5,7 +5,7 @@
     export let params ={}
     let data_idx = params.data_idx
 
-    let image_src = "/images/"
+    let _url = import.meta.env.VITE_SERVER_URL + '/api/dataset/vlm/image/'
 
     let data = {}
 
@@ -88,7 +88,7 @@
         <p style="color: {data.check ? 'green' : 'red'}">Checked: {data.check ? 'True' : 'False'}</p>
     </div>
     <div align="center">
-        <img src={image_src+data.image} alt={image_src+data.image} height="350">
+        <img src={_url+data.image} alt={_url+data.image} height="350">
     </div>
     <div class="card my-3" align="center">
         <div class="card-body">

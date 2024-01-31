@@ -32,9 +32,16 @@ sudo apt-get update
 sudo apt-get install docker-compose-plugin
 ```
 
+### Dataset Preparation
+
 #### Images
 
-You should place your images into `/frontend/public/images`
+You should place your images into `/data/vlm/images`
+
+#### Text
+
+You should place the json file into `data/vlm/text`<br>
+The format of [LLaVA](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K?row=0) is only supported now. Also multi-round dialogue is not supprted for now.
 
 ### Deploy
 
@@ -44,7 +51,7 @@ You could deploy the server by ruunning the following script.
 docker-compose up --build -d
 ```
 
-The annotation qa tool will be deployed at the following url
+The annotation qa tool will be deployed at the following url if you are going to use it in local.
 
 ```shell
 http://localhost:30119
@@ -78,4 +85,4 @@ You need to change the ip address in [nginx setting file](./qa) and [frontend en
 
 - User Profile
 - Supporting other dataset types
-- Create external api for sending image
+- Adding Annotation Feature

@@ -1,8 +1,11 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import FileResponse
 from domain.vlm import vlm_crud, vlm_schema
 from database import get_dataset_db
 from motor.motor_asyncio import AsyncIOMotorClient
-from starlette import status 
+from starlette import status
+import os
+import mimetypes
 
 router = APIRouter(
     prefix="/api/dataset",
@@ -38,3 +41,13 @@ async def vlm_dataset_progress(db: AsyncIOMotorClient = Depends(get_dataset_db))
     progress = len(_dataset_list)
 
     return {'total': total, 'progress': progress}
+
+@router.get("/vlm/image/{file_name}")
+async def vlm_get_image(file_name: str):
+    image_path = f"/home/workspace/data/vlm/images/{file_name}"
+    if not os.path.isfile(image_path):
+        raise HTTPException(status_code=404, detail="Image not found")
+    
+    mime_type, _ = mimetypes.guess_type(image_path)
+
+    return FileResponse(image_path, media_type=mime_type or "application/octet-stream")
