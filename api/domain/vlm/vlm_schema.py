@@ -20,3 +20,7 @@ class Quality(MongoBaseModel):
 class VLMIdx(MongoBaseModel):
     first_idx: int
     last_idx: int
+
+class VLMDatasetProgress(MongoBaseModel):
+    total: int
+    progress: int

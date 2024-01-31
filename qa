@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    server_name 127.0.0.1;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location / {
+        access_log /home/workspace/api/logs/nginx_access.log;
+        error_log /home/workspace/api/logs/nginx_error.log;
+        
+        include proxy_params;
+        proxy_pass http://unix:/tmp/qa.sock;
+    }
+}

@@ -9,9 +9,9 @@ router = APIRouter(
 )
 
 @router.get("/vlm/list", response_model=vlm_schema.VLMDatasetList)
-async def vlm_dataset_list(db: AsyncIOMotorClient = Depends(get_dataset_db), page: int = 0, size: int=10):
+async def vlm_dataset_list(db: AsyncIOMotorClient = Depends(get_dataset_db), page: int = 0, size: int=10, check: str = 'all'):
     offset = (page-1)*size if page > 0 else 0
-    total, _dataset_list = await vlm_crud.get_vlm_dataset_list(db, skip=offset, limit=size)
+    total, _dataset_list = await vlm_crud.get_vlm_dataset_list(db, skip=offset, limit=size, check=check)
 
     return {'total': total, 'dataset_list': _dataset_list}
 
@@ -31,3 +31,10 @@ async def vlm_get_idx(db: AsyncIOMotorClient = Depends(get_dataset_db)):
 @router.put("/vlm/quality/{data_idx}", status_code=status.HTTP_204_NO_CONTENT)
 async def vlm_update_data(data_idx: int, quality: vlm_schema.Quality, db: AsyncIOMotorClient = Depends(get_dataset_db)):
     await vlm_crud.update_vlm_data(db, data_idx=data_idx, quality_check= quality)
+
+@router.get("/vlm/list/progress", response_model=vlm_schema.VLMDatasetProgress)
+async def vlm_dataset_progress(db: AsyncIOMotorClient = Depends(get_dataset_db)):
+    total, _dataset_list = await vlm_crud.get_vlm_dataset_list(db, skip=0, limit=0, check='true')
+    progress = len(_dataset_list)
+
+    return {'total': total, 'progress': progress}

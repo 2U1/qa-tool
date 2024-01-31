@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import FileResponse
+from starlette.staticfiles import StaticFiles
 from database import connect_and_init_db, close_db_connection
 
 from domain.vlm import vlm_router
@@ -26,3 +28,9 @@ app.add_event_handler("shutdown", close_db_connection)
 
 app.include_router(vlm_router.router)
 app.include_router(user_router.router)
+app.mount("/assets", StaticFiles(directory="../frontend/dist/assets"))
+app.mount("/images", StaticFiles(directory="../frontend/dist/images"))
+
+@app.get("/")
+def index():
+    return FileResponse('../frontend/dist/index.html')

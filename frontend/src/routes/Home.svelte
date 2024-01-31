@@ -2,19 +2,23 @@
     import fastapi from "../lib/api"
     import { link } from 'svelte-spa-router'
     import moment from 'moment/min/moment-with-locales'
-    import { page } from '../lib/store'
+    import { page, check_filter } from '../lib/store'
     
     moment.locale('ko')
     
     let dataset_list = []
     let size = 10
     let total = 0
+    let checkedCount = 0
     $: total_page = Math.ceil(total / size)
+    $: checkedPercentage = total > 0 ? (checkedCount / total) * 100 : 0;
 
-    function get_dataset_list(_page) {
+
+    function get_dataset_list(_page, _check_filter) {
         let params = {
             page: _page,
             size: size,
+            check: _check_filter
         }
         
         fastapi('get','/api/dataset/vlm/list', params, (json) => {
@@ -24,10 +28,27 @@
         })   
     }
 
-    $: get_dataset_list($page)
+    function get_dataset_progress() {
+        fastapi('get','/api/dataset/vlm/list/progress', {}, (json) => {
+            checkedCount = json.progress
+        })   
+    }
+
+    $: get_dataset_list($page, $check_filter)
+    $: get_dataset_progress()
 </script>
 
 <div class="container my-3">
+    <div class="mb-3">
+        <div class="progress mb-3">
+            <div class="progress-bar" role="progressbar" style="width: {checkedPercentage}%;" aria-valuenow="{checkedPercentage}" aria-valuemin="0" aria-valuemax="100">{Math.round(checkedPercentage)}%</div>
+        </div>
+        <select class="form-select" bind:value={$check_filter}>
+            <option value="all">All</option>
+            <option value="true">Checked</option>
+            <option value="false">Unchecked</option>
+        </select>
+    </div>
     <table class="table">
         <thead>
             <tr class="table-dark">
@@ -43,7 +64,7 @@
                 <tr>
                     <th scope="row">{dataset.idx}</th>
                     <td><img src="/images/{dataset.image}" alt="/images/{dataset.image}" width="100px"></td>
-                    <td>{dataset.check}</td>
+                    <td style="color: {dataset.check ? 'green' : 'red'}">{dataset.check ? 'True' : 'False'}</td>
                     <td>{moment(dataset.date).format("YYYY년 MM월 DD일 hh:mm a")}</td>
                     <td><a use:link href="/detail/{dataset.idx}">[이동]</a></td>
                 </tr>

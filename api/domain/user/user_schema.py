@@ -19,3 +19,8 @@ class UserCreate(MongoBaseModel):
         if 'password1' in info.data and v != info.data['password1']:
             raise ValueError('passwords do not match')
         return v
+    
+class Token(MongoBaseModel):
+    access_token: str
+    token_type: str
+    username: str

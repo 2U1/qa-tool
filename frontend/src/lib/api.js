@@ -1,3 +1,5 @@
+import qs from "qs";
+
 const fastapi = (
   operation,
   url,
@@ -8,6 +10,12 @@ const fastapi = (
   let method = operation;
   let content_type = "application/json";
   let body = JSON.stringify(params);
+
+  if (operation === "login") {
+    method = "post";
+    content_type = "application/x-www-form-urlencoded";
+    body = qs.stringify(params);
+  }
 
   let _url = import.meta.env.VITE_SERVER_URL + url;
 
@@ -28,7 +36,7 @@ const fastapi = (
 
   fetch(_url, options).then((response) => {
     if (response.status === 204) {
-      // No Content
+      // No content
       if (success_callback) {
         success_callback();
       }
@@ -38,14 +46,15 @@ const fastapi = (
       .json()
       .then((json) => {
         if (response.status >= 200 && response.status < 300) {
+          // 200 ~ 299
           if (success_callback) {
             success_callback(json);
+          }
+        } else {
+          if (failure_callback) {
+            failure_callback(json);
           } else {
-            if (failure_callback) {
-              failure_callback(json);
-            } else {
-              alert(JSON.stringify(json));
-            }
+            alert(JSON.stringify(json));
           }
         }
       })

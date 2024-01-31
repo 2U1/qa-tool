@@ -1,5 +1,9 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from config import MONGODB_URL
+from starlette.config import Config
+
+config = Config(".env")
+MONGODB_URL = config("MONGODB_URL", cast=str)
+
 
 mongodb: AsyncIOMotorClient = None
 

@@ -1,11 +1,12 @@
 <script>
     import { link } from 'svelte-spa-router'
-    import { page } from '../lib/store'
+    import { page, access_token, username, is_login, check_filter } from '../lib/store'
 </script>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom"> -->
+<nav class="navbar navbar-light bg-light border-bottom">
     <div class="container-fluid">
-        <a use:link class="navbar-brand" href="/" on:click="{() => {$page =0}}">QA Tool</a>
+        <a use:link class="navbar-brand" href="/" on:click="{() => {$page =0, $check_filter='all'}}">QA Tool</a>
         <button
             class="navbar-toggler"
             type="button"
@@ -18,12 +19,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a use:link class="nav-link" href="/user-create">Sign up</a>
-                </li>
-                <li class="nav-item">
-                    <a use:link class="nav-link" href="/user-login">Sign in</a>
-                </li>
+                {#if $is_login}
+                    <li class="nav-item">
+                        <a use:link class="nav-link" href="/user-login" on:click={()=>{$access_token='', $username='', $is_login=false}}>Sign out({$username})</a>
+                    </li>
+                {:else}
+                    <li class="nav-item">
+                        <a use:link class="nav-link" href="/user-create">Sign up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a use:link class="nav-link" href="/user-login">Sign in</a>
+                    </li>
+                {/if}
             </ul>
         </div>
     </div>

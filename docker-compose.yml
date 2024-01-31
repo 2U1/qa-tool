@@ -12,12 +12,11 @@ services:
     stdin_open: true
     ports:
       - "30119:80"
-      - "30120:5000"
     ipc: host
     networks:
       - qa_network
-    command: bash
     restart: unless-stopped
+    command: /bin/bash -c "npm run build && /home/workspace/api/start.sh"
 
   db:
     image: mongo
@@ -31,7 +30,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=laon
-      - MONGO_INITDB_DATABASE=admin
+      - MONGO_INITDB_DATABASE=dataset
     restart: unless-stopped
 
 networks:
