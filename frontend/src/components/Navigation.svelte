@@ -30,6 +30,9 @@
                     <li class="nav-item">
                         <a use:link class="nav-link" href="/user-login">Sign in</a>
                     </li>
+                    <li class="nav-item">
+                        <a use:link class="nav-link" href="/upload">Upload</a>
+                    </li>
                 {/if}
             </ul>
         </div>

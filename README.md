@@ -40,7 +40,7 @@ You should place your images into `/data/vlm/images`
 
 #### Text
 
-You should place the json file into `data/vlm/text`<br>
+You should place the json file into `/data/vlm/text`<br>
 The format of [LLaVA](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K?row=0) is only supported now. Also multi-round dialogue is not supprted for now.
 
 ### Deploy
@@ -54,7 +54,7 @@ docker-compose up --build -d
 The annotation qa tool will be deployed at the following url if you are going to use it in local.
 
 ```shell
-http://localhost:30119
+http://localhost:30010
 ```
 
 ### Database
@@ -83,6 +83,7 @@ You need to change the ip address in [nginx setting file](./qa) and [frontend en
 
 ## Future update
 
+- Admin user
 - User Profile
 - Supporting other dataset types
 - Adding Annotation Feature

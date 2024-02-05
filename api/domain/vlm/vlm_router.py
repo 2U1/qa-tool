@@ -30,7 +30,6 @@ async def vlm_get_idx(db: AsyncIOMotorClient = Depends(get_dataset_db)):
 
     return {'first_idx': first_idx, 'last_idx': last_idx}
 
-
 @router.put("/vlm/quality/{data_idx}", status_code=status.HTTP_204_NO_CONTENT)
 async def vlm_update_data(data_idx: int, quality: vlm_schema.Quality, db: AsyncIOMotorClient = Depends(get_dataset_db)):
     await vlm_crud.update_vlm_data(db, data_idx=data_idx, quality_check= quality)
@@ -51,3 +50,7 @@ async def vlm_get_image(file_name: str):
     mime_type, _ = mimetypes.guess_type(image_path)
 
     return FileResponse(image_path, media_type=mime_type or "application/octet-stream")
+
+@router.post("/vlm/upload", status_code=status.HTTP_204_NO_CONTENT)
+async def vlm_upload_data(file_name: str, db: AsyncIOMotorClient = Depends(get_dataset_db)):
+    await vlm_crud.insert_vlm_data(db, file_name=file_name)
