@@ -130,7 +130,6 @@
 
     .text-content__wrapper {
         text-align: left;
-        width: 90%;
         display: block;
         padding-left: 12px;
     }
