@@ -6,6 +6,7 @@
     import UserCreate from './routes/UserCreate.svelte'
     import UserLogin from './routes/UserLogin.svelte'
     import Upload from './routes/Upload.svelte'
+    import Export from './routes/Export.svelte'
 
     const routes = {
         '/': Home,
@@ -13,6 +14,7 @@
         '/user-create': UserCreate,
         '/user-login': UserLogin,
         '/upload': Upload,
+        '/export': Export,
     }
 </script>
 

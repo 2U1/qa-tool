@@ -5,37 +5,19 @@
   let options = ["VLM"];
   let isLoading = false;
 
-  async function upload_dataset(datasetName) {
-    if (!file) {
-      console.error("No file selected");
-      return;
-    }
+  async function download_dataset(datasetName) {
 
     isLoading = true;
 
     datasetName = datasetName.toLowerCase();
 
-    let formData = new FormData();
-    formData.append('file', file);
-
     try {
-      const json = await fastapi('post', '/api/dataset/'+datasetName+'/upload', formData);
+      const json = await fastapi('get', '/api/dataset/'+datasetName+'/download');
       console.log(json);
     } catch (error) {
       console.error("Error during upload:", error);
     } finally {
       isLoading = false;
-    }
-  }
-
-  function selectFile() {
-    document.getElementById('fileInput').click();
-  }
-
-  function handleFileChange(datasetName, event) {
-    file = event.target.files[0];
-    if (file) {
-      upload_dataset(datasetName);
     }
   }
 </script>
@@ -85,9 +67,8 @@
           {#each options as opt}
               <tr>
                   <th scope="row">{opt}</th>
-                  <td class="upload-cell">
-                      <button type="button" class="btn btn-dark mb-2" on:click={selectFile}>Upload</button>
-                      <input type="file" id="fileInput" on:change={(event) => handleFileChange(opt, event)} style="display: none;" />
+                  <td class="download-cell">
+                      <button type="button" class="btn btn-dark mb-2" on:click={() => download_dataset(opt)}>Download</button>
                   </td>
               </tr>
           {/each}

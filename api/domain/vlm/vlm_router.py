@@ -54,3 +54,16 @@ async def vlm_get_image(file_name: str):
 @router.post("/vlm/upload", status_code=status.HTTP_204_NO_CONTENT)
 async def vlm_upload_data(file_name: str, db: AsyncIOMotorClient = Depends(get_dataset_db)):
     await vlm_crud.insert_vlm_data(db, file_name=file_name)
+
+
+@router.get("/vlm/download")
+async def vlm_download_data(db: AsyncIOMotorClient = Depends(get_dataset_db)):
+    file_path = "/home/workspace/data/vlm/exported/"
+    
+    try:
+        if not os.path.exists(file_path):
+            os.makedirs(file_path)
+    except:
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    
+    await vlm_crud.download_vlm_data(db, file_path)

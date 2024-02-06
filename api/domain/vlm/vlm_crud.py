@@ -2,7 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime
 from domain.vlm.vlm_schema import Quality
 from pytz import timezone
-import orjson
+import json
 
 async def get_first_last_idx(db: AsyncIOMotorClient):
     cursor = db['vlm'].find({}).sort("idx", 1).limit(1)
@@ -41,7 +41,7 @@ async def insert_vlm_data(db: AsyncIOMotorClient, file_name: str):
     data_list = []
     
     with open(data_path, 'r') as f:
-        data = orjson.load(f)
+        data = json.load(f)
 
     try:
         _, last_idx = await get_first_last_idx(db)
@@ -62,3 +62,13 @@ async def insert_vlm_data(db: AsyncIOMotorClient, file_name: str):
         data_list.append({'idx':index, 'image':image, 'conversation': conversation, 'date':date, 'check':check})
 
     db['vlm'].insert_many(data_list)
+
+
+async def download_vlm_data(db: AsyncIOMotorClient, file_path: str):
+    cursor = db['vlm'].find({}, {'_id':0, 'date':0, 'check':0}).sort("idx", 1)
+    data = [document async for document in cursor]
+
+    with open(file_path + 'vlm.json', 'w') as f:
+        json.dump(data, f, indent=4)
+
+    return file_path + 'vlm.json'

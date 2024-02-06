@@ -19,6 +19,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a use:link class="nav-link" href="/upload">Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a use:link class="nav-link" href="/export">Export</a>
+                </li>
                 {#if $is_login}
                     <li class="nav-item">
                         <a use:link class="nav-link" href="/user-login" on:click={()=>{$access_token='', $username='', $is_login=false}}>Sign out({$username})</a>
@@ -29,9 +35,6 @@
                     </li>
                     <li class="nav-item">
                         <a use:link class="nav-link" href="/user-login">Sign in</a>
-                    </li>
-                    <li class="nav-item">
-                        <a use:link class="nav-link" href="/upload">Upload</a>
                     </li>
                 {/if}
             </ul>

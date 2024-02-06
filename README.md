@@ -61,6 +61,10 @@ http://localhost:30010
 
 You can upload the data by using the upload feature in the navigation bar.
 
+### Export Data
+
+You can download the data by using the export feature in the navigation bar. The downloaded data will be saved in `/data/{datasetname}/exported`.
+
 ### Database
 
 To see the datas in the MongoDB can be seen using mongodb compass (Because express isn't running). The server url would be
