@@ -8,11 +8,11 @@ This repository is for machine learning dataset quality assurance application.<b
 
 View of data list. Check shows if you have inspected the data. You can move to the inspectation view by clicking the link in the detail.
 
-![demo1](img/demo1.PNG)
+![demo1](img/demo1.png)
 
 By clicking the button accept and reject, you can send the result to the database. The button is hilighted unless you change the quality status.
 
-![demo2](img/deom2.PNG)
+![demo2](img/demo2.png)
 
 ## Usage
 
