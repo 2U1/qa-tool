@@ -1,6 +1,6 @@
 # QA Tool
 
-This directory is for the RESTful API for the data annoation QA app.<br>
+This repository is for machine learning dataset quality assurance application.<br>
 
 **It only supports Vision-Language dataset in current version.**
 
@@ -41,7 +41,7 @@ You should place your images into `/data/vlm/images`
 #### Text
 
 You should place the json file into `/data/vlm/text`<br>
-The format of [LLaVA](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K?row=0) is only supported now. Also multi-round dialogue is not supprted for now.
+The format of [LLaVA](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K?row=0) is only supported for now.
 
 ### Deploy
 
@@ -56,6 +56,10 @@ The annotation qa tool will be deployed at the following url if you are going to
 ```shell
 http://localhost:30010
 ```
+
+### Data Upload
+
+You can upload the data by using the upload feature in the navigation bar.
 
 ### Database
 

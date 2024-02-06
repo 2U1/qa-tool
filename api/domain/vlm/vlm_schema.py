@@ -1,12 +1,16 @@
 from pydantic import Field
 from utils import MongoBaseModel
 
+class Conversation(MongoBaseModel):
+    index: int
+    speaker: str
+    value: str
+    quality: bool
+
 class VLMDataset(MongoBaseModel):
     idx: int 
     image: str 
-    human: str 
-    gpt: str 
-    quality: bool
+    conversations: list[Conversation]
     date: str 
     check: bool
 
@@ -15,6 +19,7 @@ class VLMDatasetList(MongoBaseModel):
     dataset_list: list[VLMDataset]
 
 class Quality(MongoBaseModel):
+    index: int
     quality: bool
 
 class VLMIdx(MongoBaseModel):

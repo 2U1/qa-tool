@@ -2,7 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime
 from domain.vlm.vlm_schema import Quality
 from pytz import timezone
-import json
+import orjson
 
 async def get_first_last_idx(db: AsyncIOMotorClient):
     cursor = db['vlm'].find({}).sort("idx", 1).limit(1)
@@ -33,7 +33,7 @@ async def get_vlm_data(db: AsyncIOMotorClient, data_idx: int):
     return await cursor
 
 async def update_vlm_data(db: AsyncIOMotorClient, data_idx: int, quality_check: Quality):
-    db['vlm'].update_one({'idx':data_idx}, {'$set': {'quality':quality_check.quality,'date':datetime.now(timezone('Asia/Seoul')).isoformat(),'check': True}})
+    db['vlm'].update_one({'idx':data_idx, "conversations.index": quality_check.index}, {'$set': {'conversations.$.quality':quality_check.quality,'date':datetime.now(timezone('Asia/Seoul')).isoformat(),'check': True}})
 
 
 async def insert_vlm_data(db: AsyncIOMotorClient, file_name: str):
@@ -41,7 +41,7 @@ async def insert_vlm_data(db: AsyncIOMotorClient, file_name: str):
     data_list = []
     
     with open(data_path, 'r') as f:
-        data = json.load(f)
+        data = orjson.load(f)
 
     try:
         _, last_idx = await get_first_last_idx(db)
@@ -54,12 +54,11 @@ async def insert_vlm_data(db: AsyncIOMotorClient, file_name: str):
             continue
         index = last_idx + idx
         image = d['image']
-        human = d['conversation'][0]['value']
-        gpt = d['conversation'][1]['value']
-        q = False
+        conversation = d['conversations']
+        conversation = [{'index':i,'speaker':c['speaker'], 'value':c['value'], 'quality':False} for i, c in enumerate(conversation)]
         date = datetime.now(timezone('Asia/Seoul')).isoformat()
         check = False
 
-        data_list.append({'idx':index, 'image':image, 'human':human, 'gpt':gpt, 'quality':q, 'date':date, 'check':check})
+        data_list.append({'idx':index, 'image':image, 'conversation': conversation, 'date':date, 'check':check})
 
     db['vlm'].insert_many(data_list)
