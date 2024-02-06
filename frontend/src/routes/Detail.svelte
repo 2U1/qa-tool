@@ -94,7 +94,7 @@
 
     .speaker-content {
         display: flex;
-        align-items: center; /* This will align the icon with the text */
+        align-items: flex-start; /* This will align the icon with the text */
         gap: 10px;
         flex-grow: 1; /* This will allow the speaker content to grow and fill space */
     }
@@ -105,6 +105,13 @@
         flex-shrink: 0; /* Prevent the icon from shrinking */
     }
 
+    .text-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
     .text-container p {
         margin: 0;
         line-height: 30px; /* Adjust this to ensure alignment with the icon */
@@ -113,6 +120,19 @@
     .buttons-container {
         flex-shrink: 0; /* Prevent the buttons from shrinking */
         margin-left: auto; /* This pushes the button container to the right */
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .text-content__wrapper {
+        text-align: left;
+        width: 90%;
+        display: block;
+        padding-left: 12px;
     }
 
 </style>
@@ -137,7 +157,8 @@
                     <div class="speaker-content">
                         <img class="speaker-icon" src={`/${getSpeakerIcon(conversation.speaker)}`} alt={conversation.speaker}/>
                         <div class="text-container">
-                            <p><strong>{conversation.speaker}: </strong>{conversation.value}</p>
+                            <strong>{conversation.speaker}: </strong>
+                            <p class="text-content__wrapper">{conversation.value}</p>
                         </div>
                     </div>
                     <div class="buttons-container">
