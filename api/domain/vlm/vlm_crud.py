@@ -33,35 +33,39 @@ async def get_vlm_data(db: AsyncIOMotorClient, data_idx: int):
     return await cursor
 
 async def update_vlm_data(db: AsyncIOMotorClient, data_idx: int, quality_check: Quality):
-    db['vlm'].update_one({'idx':data_idx, "conversations.index": quality_check.index}, {'$set': {'conversations.$.quality':quality_check.quality,'date':datetime.now(timezone('Asia/Seoul')).isoformat(),'check': True}})
+    await db['vlm'].update_one({'idx':data_idx, "conversations.index": quality_check.index}, {'$set': {'conversations.$.quality':quality_check.quality,'date':datetime.now(timezone('Asia/Seoul')).isoformat(),'check': True}})
 
 
-async def insert_vlm_data(db: AsyncIOMotorClient, file_name: str):
-    data_path = '/home/workspace/data/vlm/text/' + file_name
+async def insert_vlm_data(db: AsyncIOMotorClient, data):
+
+    existing_images = {doc['image'] async for doc in db['vlm'].find({}, {'image': 1})}
+    
     data_list = []
-    
-    with open(data_path, 'r') as f:
-        data = json.load(f)
 
-    try:
-        _, last_idx = await get_first_last_idx(db)
+    last_idx = await db['vlm'].count_documents({})
+
+    count = 0
     
-    except:
-        last_idx = 0
-    
-    for idx, d in enumerate(data):
-        if db['vlm'].find_one({'image':d['image']}):
+    for d in data:
+        if d['image'] in existing_images:
             continue
-        index = last_idx + idx
+        index = last_idx + count
         image = d['image']
         conversation = d['conversations']
-        conversation = [{'index':i,'speaker':c['speaker'], 'value':c['value'], 'quality':False} for i, c in enumerate(conversation)]
+        conversation = [{'index':i,'speaker':c['from'], 'value':c['value'], 'quality':False} for i, c in enumerate(conversation)]
         date = datetime.now(timezone('Asia/Seoul')).isoformat()
         check = False
 
-        data_list.append({'idx':index, 'image':image, 'conversation': conversation, 'date':date, 'check':check})
+        data_list.append({'idx':index, 'image':image, 'conversations': conversation, 'date':date, 'check':check})
 
-    db['vlm'].insert_many(data_list)
+        if len(data_list) == 100:
+            await db['vlm'].insert_many(data_list)
+            data_list = []
+
+        count += 1
+    
+    if data_list:
+        await db['vlm'].insert_many(data_list)
 
 
 async def download_vlm_data(db: AsyncIOMotorClient, file_path: str):

@@ -29,6 +29,7 @@ app.add_event_handler("shutdown", close_db_connection)
 app.include_router(vlm_router.router)
 app.include_router(user_router.router)
 app.mount("/assets", StaticFiles(directory="../frontend/dist/assets"))
+app.mount("/icons", StaticFiles(directory="../frontend/dist/icons"))
 
 @app.get("/")
 def index():

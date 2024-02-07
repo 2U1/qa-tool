@@ -8,13 +8,22 @@ const fastapi = (
   failure_callback
 ) => {
   let method = operation;
-  let content_type = "application/json";
-  let body = JSON.stringify(params);
+  let headers = {};
+  let body;
 
-  if (operation === "login") {
-    method = "post";
-    content_type = "application/x-www-form-urlencoded";
-    body = qs.stringify(params);
+  if (params instanceof FormData) {
+    // When using FormData, the browser will automatically set the Content-Type to 'multipart/form-data'
+    // with the boundary parameter, so we don't set it manually.
+    body = params;
+  } else {
+    // For JSON or URL-encoded content, set the Content-Type header accordingly
+    if (operation === "login") {
+      headers["Content-Type"] = "application/x-www-form-urlencoded";
+      body = qs.stringify(params);
+    } else {
+      headers["Content-Type"] = "application/json";
+      body = JSON.stringify(params);
+    }
   }
 
   let _url = import.meta.env.VITE_SERVER_URL + url;
@@ -25,15 +34,12 @@ const fastapi = (
 
   let options = {
     method: method,
-    headers: {
-      "Content-Type": content_type,
-    },
+    headers: headers,
   };
 
   if (method !== "get") {
     options["body"] = body;
   }
-
   fetch(_url, options).then((response) => {
     if (response.status === 204) {
       // No content
