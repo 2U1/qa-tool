@@ -5,6 +5,8 @@
   let options = ["VLM"];
   let isLoading = false;
 
+  let selectedDatasetName;
+
   async function upload_dataset(datasetName) {
     if (!file) {
       console.error("No file selected");
@@ -14,7 +16,7 @@
     isLoading = true;
 
     datasetName = datasetName.toLowerCase();
-
+    
     let formData = new FormData();
     formData.append('file', file);
 
@@ -28,14 +30,15 @@
     }
   }
 
-  function selectFile() {
+  function selectFile(datasetName) {
+    selectedDatasetName = datasetName;
     document.getElementById('fileInput').click();
   }
 
-  function handleFileChange(datasetName, event) {
+  function handleFileChange(event) {
     file = event.target.files[0];
     if (file) {
-      upload_dataset(datasetName);
+      upload_dataset(selectedDatasetName);
     }
   }
 </script>
@@ -86,8 +89,8 @@
               <tr>
                   <th scope="row">{opt}</th>
                   <td class="upload-cell">
-                      <button type="button" class="btn btn-dark mb-2" on:click={selectFile}>Upload</button>
-                      <input type="file" id="fileInput" on:change={(event) => handleFileChange(opt, event)} style="display: none;" />
+                      <button type="button" class="btn btn-dark mb-2" on:click={() => selectFile(opt)}>Upload</button>
+                      <input type="file" id="fileInput" on:change={handleFileChange} style="display: none;" />
                   </td>
               </tr>
           {/each}

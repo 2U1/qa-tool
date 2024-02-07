@@ -146,7 +146,7 @@
     </div>
     {#if data.image}
     <div align="center">
-        <img src={_url+data.image} alt={_url+data.image} height="350">
+        <img src={_url+data.image} alt={data.image} height="350">
     </div>
     {/if}
     <div class="card my-3" align="center">
@@ -154,7 +154,7 @@
             {#each conversations as conversation, idx (conversation.index)}
                 <div class="mb-3 conversation-item">
                     <div class="speaker-content">
-                        <img class="speaker-icon" src={`/${getSpeakerIcon(conversation.speaker)}`} alt={conversation.speaker}/>
+                        <img class="speaker-icon" src={`/icons/${getSpeakerIcon(conversation.speaker)}`} alt={conversation.speaker}/>
                         <div class="text-container">
                             <strong>{conversation.speaker}: </strong>
                             <p class="text-content__wrapper">{conversation.value}</p>
