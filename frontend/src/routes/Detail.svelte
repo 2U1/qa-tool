@@ -59,6 +59,8 @@
     }
 
     function move_to_prev_next_data_idx(direction) {
+        data_idx = Number(data_idx);
+        
         if (direction == "prev") {
             if (data_idx == first_data_idx) {
                 alert("This is the first data")
@@ -144,6 +146,7 @@
     <div style="position: absolute; top: 50px; right: 0; padding: 10px;">
         <p style="color: {data.check ? 'green' : 'red'}">Checked: {data.check ? 'True' : 'False'}</p>
     </div>
+    <h1 class="text-center">{data.idx}</h1>
     {#if data.image}
     <div align="center">
         <img src={_url+data.image} alt={data.image} height="350">

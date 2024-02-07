@@ -44,7 +44,7 @@ async def vlm_dataset_progress(db: AsyncIOMotorClient = Depends(get_dataset_db))
 
 @router.get("/vlm/image/{file_name}")
 async def vlm_get_image(file_name: str):
-    image_path = "/home/workspace/data/vlm/images/train2017/" + file_name
+    image_path = "/home/workspace/data/vlm/images/" + file_name
     if not os.path.isfile(image_path):
         raise HTTPException(status_code=404, detail="Image not found")
     

@@ -40,7 +40,7 @@ You should place your images into `/data/vlm/images`
 
 #### Text
 
-You should place the json file into `/data/vlm/text`<br>
+You can upload the data from local(File size should be under 1GB).<br>
 The format of [LLaVA](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K?row=0) is only supported for now.
 
 ### Deploy
