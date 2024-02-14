@@ -18,7 +18,7 @@ services:
     networks:
       - qa_network
     restart: unless-stopped
-    command: /bin/bash -c "npm run build && /home/workspace/api/start.sh"
+    command: /bin/bash -c "npm install && npm run build && /home/workspace/api/start.sh"
 
   db:
     image: mongo
